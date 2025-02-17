@@ -98,10 +98,20 @@ class Memory:
     def _check_row(cls, row, selections):
         return all(cls._compute(s, row) for s in selections)
 
+    @classmethod
+    def _project(cls, row, projections):
+        if not projections:
+            return row.values()
+        return [row[p] for p in projections]
+
     def run(self, query):
         tables = [self.data[t] for t in query.tables]
         rows = (merge_dicts(t) for t in itertools.product(*tables))
-        return [r for r in rows if self._check_row(r, query.selections)]
+        return [
+            self._project(r, query.peojections)
+            for r in rows
+            if self._check_row(r, query.selections)
+        ]
 
 class SQLite:
     def __init__(self, database):
