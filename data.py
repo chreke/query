@@ -14,13 +14,13 @@ def load(filename):
                 "Year": int(row["Year"]),
                 "IMDB Rating": float(row["IMDB rating"])
             })
-            movie_id += 1
             for g in row["Genre"].split(" | "):
                 genres.append({
                     "MovieId": movie_id,
                     "Genre": g
                 })
                 genre_id += 1
+            movie_id += 1
         return {"movies": movies, "genres": genres}
 
 def save(filename, rows):
