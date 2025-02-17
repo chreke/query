@@ -20,6 +20,9 @@ class Eq(BinaryOp):
 class Gt(BinaryOp):
     pass
 
+class Lt(BinaryOp):
+    pass
+
 
 class Query:
     def __init__(self, table):
@@ -54,6 +57,8 @@ def _to_sql(term):
             return _to_sql(a) + " = " + _to_sql(b)
         case Gt(a=a, b=b):
             return _to_sql(a) + " > " + _to_sql(b)
+        case Lt(a=a, b=b):
+            return _to_sql(a) + " < " + _to_sql(b)
         case str():
             return f"'{term}'"
         case int():
@@ -91,6 +96,8 @@ class Memory:
                 return cls._compute(a, row) == cls._compute(b, row)
             case Gt(a=a, b=b):
                 return cls._compute(a, row) > cls._compute(b, row)
+            case Lt(a=a, b=b):
+                return cls._compute(a, row) < cls._compute(b, row)
             case other:
                 return other
 
