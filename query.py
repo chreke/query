@@ -72,7 +72,7 @@ def sql(query):
     tables = ", ".join(query.tables)
     selections = " AND ".join(_to_sql(s) for s in query.selections)
     where = f"WHERE {selections}" if selections else ""
-    return f"SELECT ({projections}) FROM {tables} {where}".strip()
+    return f"SELECT {projections} FROM {tables} {where}".strip()
 
 
 ## ADAPTERS
