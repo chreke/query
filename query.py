@@ -108,8 +108,8 @@ class Memory:
     @classmethod
     def _project(cls, row, projections):
         if not projections:
-            return row.values()
-        return [row[p] for p in projections]
+            return row
+        return {p: row[p] for p in projections}
 
     def run(self, query):
         tables = [self.data[t] for t in query.tables]
@@ -123,8 +123,9 @@ class Memory:
 class SQLite:
     def __init__(self, database):
         self.connection = sqlite3.connect(database)
+        self.connection.row_factory = sqlite3.Row
 
     def run(self, query):
         cursor = self.connection.cursor()
-        result = cursor.execute(query)
-        return result.fetchall()
+        result = cursor.execute(sql(query))
+        return [dict(r) for r in result.fetchall()]
