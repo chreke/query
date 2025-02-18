@@ -115,7 +115,7 @@ class Memory:
         tables = [self.data[t] for t in query.tables]
         rows = (merge_dicts(t) for t in itertools.product(*tables))
         return [
-            self._project(r, query.peojections)
+            self._project(r, query.projections)
             for r in rows
             if self._check_row(r, query.selections)
         ]
