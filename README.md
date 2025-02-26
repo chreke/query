@@ -47,7 +47,6 @@ genres:
 Get all movie titles directed by Ingmar Bergman:
 
 ```python
-from query import *
 q = Query("movies")\
   .where(Eq(Col("Director"), "Ingmar Bergman"))\
   .select(["Title"])
