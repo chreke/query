@@ -108,11 +108,32 @@ data.save("genres.csv", d["genres"])
 Once you have exported the tables, run `sqlite3 imdb.db` in the same directory to open up SQLite with a new database.
 Inside the SQLite CLI, run these commands:
 
-```sqlite
+```
 .import movies.csv movies --csv
 .import genres.csv genres --csv
 ```
 
-## Examples
+## Adapter examples
+
+To run the SQLite adapter:
+
+```python
+db = SQLite("imdb.db")
+q = Query("movies")\
+  .where(Eq(Col("Director"), "Ingmar Bergman"))\
+  .select(["Title"])
+db.run(q)
+```
+
+To run the in-memory adapter:
+
+```python
+d = data.load("imdb.csv")
+db = Memory(d)
+q = Query("movies")\
+  .where(Eq(Col("Director"), "Ingmar Bergman"))\
+  .select(["Title"])
+db.run(q)
+```
 
 [relalg]: https://en.wikipedia.org/wiki/Relational_algebra
